@@ -1,0 +1,28 @@
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="data:;base64,=" />
+    <link rel="stylesheet" type="text/css" href="{% static 'rw_main/index.css' %}" />
+
+
+    <title>Rewind</title>
+
+</head>
+<body>
+    <img id="site_logo" src="https://arizonachristian.edu/wp-content/uploads/2017/06/logo-placeholder.png" alt="Logo">
+    <header>
+        <a href="{% url 'rw_main:index'%}">Search</a>
+        <a href="">Browse</a>
+        <a href="">Sell</a>
+        <a href="">Login</a>
+    </header>
+    <form action="">
+        <input type="text" placeholder="Enter a movie">
+        <button>Search</button>
+    </form>
+</body>
+</html>
