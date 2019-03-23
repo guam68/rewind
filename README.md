@@ -10,6 +10,7 @@ Create a mock website for VHS rentals
     - used for home page and default search page
 - Browse page
     - use filters to browse through database of movies
+    - use modals to see movie info and add to rentals
 - Sell page
     - sell copies of tapes to the site for others to rent
 - User page

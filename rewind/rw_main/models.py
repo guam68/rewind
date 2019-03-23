@@ -8,5 +8,5 @@ class Movie(models.Model):
     genre_id = models.TextField()
     release_date = models.TextField()
     
-    def __str__(self):
-        return self.title
+    # def __str__(self):
+    #     return self.title

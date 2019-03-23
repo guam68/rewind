@@ -1,0 +1,97 @@
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'rw_main/browse.css' %}" />
+
+
+    <title>Browse</title>
+</head>
+<body>
+
+    <div class="slide_wrapper">
+        <div class="arrow" onclick="plusDivs(-1)">&#10094;</div>
+        <div class="random"></div>
+        <div class="arrow" onclick="plusDivs(1)">&#10095;</div>
+    </div>
+    
+    {% include "detail.html" %}
+
+    
+<script>
+    let slide_idx = 1
+
+    let random = document.querySelector(".random")
+        axios.get("{% url 'rw_main:get_random_movies' %}").then(function(response) {
+            movies = response.data
+            for(let i=0;i<Object.keys(movies).length;i++) {
+                movie = movies[i]
+                let movie_div = document.createElement("div")
+                movie_div.className = "movie"
+                movie_div.data = movie["id"]
+                random.appendChild(movie_div)
+
+                let movie_img = document.createElement("img")
+                url = "https://image.tmdb.org/t/p/w185_and_h278_bestv2" + movie["poster_img"]
+                movie_img.src = url
+                movie_img.className = "poster"
+
+                movie_div.onclick = function(){
+                    axios.post("{% url 'rw_main:get_movie_details' %}", {
+                        "id" : this.data
+                        }, {
+                            headers: {
+                                "X-CSRFToken": "{{ csrf_token }}"
+                            }
+                    }).then(function(response) {
+                        details = response.data
+                        document.querySelector("#title").innerText = details["title"]
+                        document.querySelector("#release").innerText = details["release_date"]
+                        document.querySelector("#overview").innerText = details["overview"]
+                    })
+                    document.getElementById("detail_modal").style.display="block"
+                }
+
+                let movie_title = document.createElement("div") 
+                movie_title.innerText = movie["title"]
+                movie_div.appendChild(movie_img)
+                movie_div.appendChild(movie_title)
+
+                showDivs(slide_idx)
+            }
+        })
+
+
+        function plusDivs(n) {
+            showDivs(slide_idx += n)
+        }
+
+
+        function showDivs(n) {
+            let cur_div = document.querySelectorAll(".movie")
+            if (n > cur_div.length) { slide_idx = 1 }
+            if (n < 1) { slide_idx = cur_div.length }
+
+            for (let i=0; i<cur_div.length; i++) {
+                if (i+1 == n || i-1 == n || i==n) {
+                    cur_div[i].style.display = "flex"
+                } else {
+                    cur_div[i].style.display = "none"
+                }
+
+                if (i==cur_div.length) {
+                    cur_div[0].style.display = "flex"
+                }
+            }
+            
+            console.log(slide_idx+1)
+            // cur_div[slide_idx - 1].style.display = "flex"
+        }
+</script>
+</body>
+</html>

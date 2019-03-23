@@ -8,21 +8,21 @@
     <link rel="icon" href="data:;base64,=" />
     <link rel="stylesheet" type="text/css" href="{% static 'rw_main/index.css' %}" />
 
-
     <title>Rewind</title>
 
 </head>
 <body>
     <img id="site_logo" src="https://arizonachristian.edu/wp-content/uploads/2017/06/logo-placeholder.png" alt="Logo">
     <header>
-        <a href="{% url 'rw_main:index'%}">Search</a>
-        <a href="">Browse</a>
+        <a href="{% url 'rw_main:index' %}">Search</a>
+        <a href="{% url 'rw_main:browse' %}">Browse</a>
         <a href="">Sell</a>
         <a href="">Login</a>
     </header>
-    <form action="">
+    <form action="{% url 'rw_main:search' %}" method="POST">
+        {% csrf_token %}
         <input type="text" placeholder="Enter a movie">
-        <button>Search</button>
+        <button type="submit">Search</button>
     </form>
 </body>
 </html>
